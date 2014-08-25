@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="format-detection" content="telephone=no" />
+	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, target-densitydpi=device-dpi" />
+	<link rel="stylesheet" type="text/css" href="css/normalize.css">
+  <link rel="stylesheet" type="text/css" href="css/icons.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+  <meta name="msapplication-tap-highlight" content="no" />
+  <title>Comberry</title>
+</head>
+<body>
+  <div id="statusbar"></div>
+	<header class="cf">
+		<span class="topnav topnav-left icon-question"></span>
+    <span class="topnav topnav-right icon-info"></span>
+
+		<h1><img src="berry.png"> Comberry</h1>
+	</header>
+	<div id="main">
+    
+    <h2 id="chartTitle">Title of Chart</h2>
+    <div id="result">
+      <canvas id="resultChart"></canvas>
+    </div>
+    <div id="input" class="cf">
+      <div class="button-section">
+        <div class="bubble">
+          <div id="create-block" class="form">
+            <label>
+              <input type="text" placeholder="Name"><!--
+            --></label>
+            <label>
+              <span>Volume in units: </span><input type="number">
+            </label>
+            <label>
+              <span>Cost per unit: </span><input type="number">
+            </label>
+            <label>
+              <span>Revenue per unit: </span><input type="number">
+            </label>
+            <input type="submit" id="createInputBlock" value="Create!">
+          </div>
+        </div>
+        <button id="newberry" class="btn-special">Add new &hellip;</button>
+      </div>
+      <div class="button-section">
+        <button id="toggleCombinedSwitch" class="btn-special">Show Combined Bar</button>
+      </div>
+    </div>
+    <div id="help">
+      <h3>How to use Comberry</h3>
+      <p>Let us introduce Max from the Wal-Berry store. Max' store sells all kind of berries. Max knows that they could make much more if they'd sell more Strawberries instead of Blackberries. He would like to compare how much they can make with each berry, quickly plot a graph and explain it to his employees.</p>
+      <p>Max grabs the Comberry App and adds his beloved Strawberry, the Blackberry and also the Raspberry. He types the following details:
+        <ul>
+          <li>Strawberry: 100 boxes a day, cost per box $1, revenue $1.80</li>
+          <li>Blackberry: 80 boxes a day, cost per box $1.50, revenue $2.20</li>
+          <li>Raspberry: 50 boxes a day, cost per box $2, revenue $2.60</li>
+        </ul>
+      Thanks to Comberry he can easily see that the total cost for Strawberries and Raspberries is the same, despite he sells double as many Strawberries. Max knew he had to talk to that Raspberry dealer again. Anyway, as he is looking at the "Revenues" tab he finds that Blackberries make almost the same revenue as Strawberries, yet he sold 20 blackberries less! Would make sense to push these a little bit to reach similar volumes as with strawberries. Or would it? When looking at the profit tab Max is shocked: he can now clearly see that Strawberries actually made 43% more profit! He knew it! He immediately shows the chart to his boss and the next day advertise strawberries all over town...</p>
+      <p>Try Max' example from the Wal-Berry store yourself if you are unsure of the explanations.</p>
+      <h4>Navigation</h4>
+      <p>Use the four tabs at the bottom to toggle between the four charts:
+        <ul>
+          <li>Volume: shows the volume of all submitted items</li>
+          <li>Cost: shows the cost of all submitted items</li>
+          <li>Revenue: shows the total revenues of all submitted items</li>
+          <li>Profit: shows the total profits of all submitted items</li>
+        </ul>
+      </p>
+      <p>Tap the "Add new" button to submit a new item which should be compared to other itmes.</p>
+      <p>With the "Show/hide Combined Bar" button you can toggle a special bar that shows the values of all currently submitted items together.</p>
+      <h4>Adding new items</h4>
+      <p>Tap the "Add new" button. This will open a bubble with 4 input fields. Fill out the fields as appropriate. The values can be changed later on. Tap "Create" to submit the new item and its values.</p>
+      <h4>Update items</h4>
+      <p>Tap on the respective item button below the chart (make sure you tap on the laft of the "cancel" icon to not accidentally delete the item). This will open a bubble above the button containing 4 input fields. The fields are pre-populated with the current values. Overwrite the current values as you deem appropriate and click on the green update button on the right bottom of the bubble to save your changes. The bubble will disappear automatically and the chart is re-drawn applying your updates.</p>
+      <h4>Delete items</h4>
+      <p>Find the items button below the plotted chart. Click on the small circle marked with an "x" on the right hand side of an items button. The button will disappear and the chart is redrawn without the deleted item. Please note that any deletion is final. If you need the item back in again, you have to add it again by following the steps described under title "Adding new items".</p>
+      <p>Alternatively, you can also tap the button below the chart of the item you want to delete. This will open a bubble with 4 four inputs fields above the button. Tap on the red "delete" button on the left bottom of the bubble. Both the bubble and the button below the chart will disappear. The chart is redrawn automatically without the deleted item.</p>
+      <h4>Toggle Combined Bar</h4>
+      <p>Tab on the button "Show Combined Bar" below the chart to show a special bar on the chart summing all items together. This bar will simply add up the values from the same chart of all items.</p>
+      <h4>Reveal exact values of each bar</h4>
+      <p>Tap on an individual bar to reveal a tooltip that shows the exact value of the bar. This is sometimes useful if a bars value cannot be derived from the scale on the left.</p>
+      <h4>Functions in detail</h4>
+      <p>This is an overview of the functions used to plot each chart:
+        <ul>
+          <li>Volume = Volume</li>
+          <li>Cost = Volume * Cost</li>
+          <li>Revenue = Volume * Revenue</li>
+          <li>Profit = (Volume * Revenue) - (Volume * Cost)</li>
+        </ul>
+      </p>
+      <p>Use the "Help" button on the top left corner to access this help page.</p>
+      <p>Use the "Info" button on the top right corner to learn more about Comberry and who made it.</p>
+    </div>
+    <div id="about">
+      <h3>About Comberry</h3>
+      <p>The goal of Comberry is to quickly evaluate which trading items are more profitable than others and thus worthwhile investing in over others.</p>
+      <p>The Comberry App was designed to compare different products or services for trade in an easy way. That means the products or services it compares must have a cost (in business usually referred to as the purchase or acquisition price) and will generate a certain revenue (sometimes in business also referred to as income or yield). Comberry will automatically deduct the cost from the revenue in order to determine the profit of any given item. The user can calculate the total cost, revenue and profit by specifying the volume in units for every item.</p>
+      <h4>Who are the cooks?</h4>
+      <p>Comberry was made with <span class="icon-heart"></span> for <a href="http://www.fcb.ch">FCB1893</a> by Phil for Rhinerock from Basel in Singapore.</p>
+      <h4>License</h4>
+      <p>&copy;2014, Philipp Nueesch. All rights reserved.<br>Version 0.1.0</p>
+      <h4>Contact</h4>
+      <p>
+        <a href="mailto:info@rhinerock.com">info@rhinerock.com</a><br>
+        <a href="http://rhinerock.com">rhinerock.com</a>
+      </p>
+    </div>
+	</div>
+	<footer>
+    <ul>
+      <li title="Volume" class="botnav-main botnav-active"><span class="icon-bars"></span> Volume</li>
+      <li title="Cost" class="botnav-main"><span class="icon-bars"></span> Cost</li>
+      <li title="Revenue" class="botnav-main"><span class="icon-bars"></span> Revenue</li>
+      <li title="Profit" class="botnav-main"><span class="icon-bars"></span> Profit</li>
+    </ul>
+  </footer>
+<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="js/Chart.min.js"></script>
+<script type="text/javascript" src="js/comberry.js"></script>
+<script type='application/javascript' src="js/fastclick.js"></script>
+<script type="text/javascript">
+  window.addEventListener('load', function() {
+    FastClick.attach(document.body);
+  }, false);
+</script>
+</body>
+</html>

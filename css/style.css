@@ -1,0 +1,387 @@
+/**
+ * Styles for the comberry app
+ * @author  Philipp S. Nueesch
+ * @email   phn@gmx.ch
+ * @date    26 July 2014
+ */
+
+/* General styles
+ **********************************************/
+
+html, body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color: #444;
+}
+
+/* needed for the sticky footer */
+html {
+  position: relative; 
+  min-height: 100%;
+}
+
+body {
+  margin: 0 0 49px; /* margin-bottom Ypx equals the height of the sticky footer */
+}
+
+
+/* Header
+ **********************************************/
+
+header {
+  /* has clearfix applied .cf */
+  text-align: center;
+  height: 24px; /* 44px is the standard iPad height in landscape - 10px padding = 24px */
+  background-color: #556270;
+  padding: 10px;
+  color: white;
+  border: none;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+header img {
+  height: 16px;
+}
+
+header span {
+  display: block;
+  font-size: 1.6rem;
+  cursor: pointer;
+}
+
+/* active state which can be assigned via scripting */
+header span.topnav-active {
+  color: #ddd;
+}
+
+.topnav-left {
+  float: left;
+  font-size: 1.5rem;
+}
+
+.topnav-right {
+  float: right;
+}
+
+
+/* Main Content
+ **********************************************/
+
+#main {
+  width: 98%;
+  height: 635px;
+  padding: 10px 1%;
+  text-align: center;
+}
+
+#result {
+  width: 92%;
+  margin: 0 auto;
+  min-height: 465px;
+  text-align: center;
+}
+
+#result h2 {
+  margin: 0 0 1%;
+}
+
+#input {
+  width: 92%;
+  margin: 1% auto 0;
+  max-height: 105px;
+  /* overflow: scroll; this is needed but also hides the bubble, therefore commented out until solution found */
+  text-align: center;
+}
+
+
+/**
+  * button sections (div containing bubble with form and button with delete icon)
+  */
+.button-section {
+  float: left;
+  margin: 0.333333333333%;
+  position: relative;
+  display: inline-block;
+}
+
+
+/**
+  * input buttons (to togle the bubble with input form and select a data series)
+  */
+#input button {
+  background-color:#FF9797;
+  -moz-border-radius:28px;
+  -webkit-border-radius:28px;
+  border-radius:28px;
+  border:1px solid #662B2B;
+  display:inline-block;
+  cursor:pointer;
+  color:#662B2B;
+  font-size:17px;
+  padding:10px 24px;
+  text-decoration:none;
+}
+
+/* active state which can be assigned via script */
+#input button.btn-active {
+  background-color:#FF6B6B;
+}
+
+/* the delete circle within the button */
+#input button span {
+  padding-left: 20px;
+}
+
+/* the "toggle combined" and "add new" have different color as they behave differently form a normal button */
+#input button.btn-special {
+  background-color: #FFD3D3;
+}
+
+
+/**
+  * pop-up bubbles
+  */
+.bubble {
+  position: absolute; /* lives absolute to the relative input-section div */
+  top: -300px;
+  left: -40px;
+  width: 250px;
+  height: 265px;
+  padding: 10px;
+  background: rgba(85,98,112,0.66);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  z-index: 100;
+}
+
+.bubble:after {
+  content: "";
+  position: absolute;
+  bottom: -15px;
+  left: 110px;
+  border-style: solid;
+  border-width: 15px 15px 0;
+  border-color: rgba(85,98,112,0.66) transparent;
+  display: block;
+  width: 0;
+  z-index: 1;
+}
+
+/**
+  * Forms inside bubbles
+  */
+.bubble div.form { /* no actual <form> tag is used to avoid sending http request with type=input and button tags which would cause page refresh and thus break the app */
+  text-align: right;
+  color: white;
+  font-size: 0; /* hack to remove whitespaces */
+}
+
+.bubble span { /* these are the form descriptions/labels */
+  font-size: 1.2rem;
+  display: inline-block;
+  width: 140px;
+  font-weight: 500;
+  padding-right: 10px;
+}
+
+.bubble input {
+  font-size: 1.5rem;
+  display: inline-block;
+  margin: 0 0 10px;
+  padding: 10px;
+  width: 80px;
+  color: #444;
+  border: none;
+  border-radius: 3px;
+}
+
+.bubble input:focus {
+  border: none;
+  background-color: #FFD3D3;
+}
+
+/* only 1 text field (for name) which is styled differently and needs to be longer */
+.bubble input[type="text"] {
+  font-size: 1.5rem;
+  display: block;
+  width: 230px;
+}
+
+/* submit button "delete" styling -- also see above, doesn't live within <form> tag which would produce http request and with this page refresh which destroys the app */
+.bubble input[type="submit"] {
+  width: 120px;
+  margin-right: 10px;
+  background: url('../img/cancel-circle.png') #C44D58 no-repeat center;
+}
+
+/* ! ERROR potential for future */
+/* button "update" styling, currently this is the only type=submit living as sibling of aonther type=submit --> not error prone for future expansion! */
+input[type="submit"]:first-of-type + input[type="submit"] {
+  margin-right: 0;
+  background: url('../img/checkmark-circle.png') #C7F464 no-repeat center;
+}
+
+/* special type=submit which will be bind to different action than others (will create instead of update/delete) */
+input#createInputBlock {
+  /*display: inline-block;*/
+  margin: 0;
+  padding: 0;
+  width: 250px;
+  height: 44px;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  background: none;
+  background-color: #C7F464;
+  text-align: center;
+  cursor: pointer;
+}
+
+/****
+  The color of the charts itself are defined in the javascript directly
+  ****/
+
+
+/* Help Content (hidden by default)
+ **********************************************/
+
+/**
+  * Help page
+  */
+#help, #about {
+  background-color: rgba(245,245,245,0.9);
+  position: absolute;
+  top: 64px;
+  width: 320px;
+  max-height: 634px; /* total content height of ipad is 655, minus 2 * 10px padding (top + bottom) = 635 */
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+  text-align: left;
+  padding: 10px 20px;
+  line-height: 1.4;
+  z-index: 200; /* lives above everything in any case */
+}
+
+#help::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+#help::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .5);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}
+
+#help a,
+#about a,
+#help a:visited,
+#help a:visited {
+  color: #666;
+}
+
+#help h4, #about h4 {
+  margin: 2rem 0 0;
+}
+
+#help {
+  left: 0;
+}
+
+#about {
+  right: 0;
+}
+
+
+/* Footer
+ **********************************************/
+
+footer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+
+  /* needs to be set on as margin-bottom on body equally! */
+  /* 49px is the iPad default height of the tab bar */
+  height: 49px;
+
+  width: 100%;
+  background-color: #556270;
+}
+
+footer ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  color: white;
+  width: 100%;
+  cursor: pointer;
+  font-size: 0; /* hack to eliminate spaces before li text (http://stackoverflow.com/questions/5256533/a-space-between-inline-block-list-items) */
+}
+
+footer ul li {
+  display: inline-block;
+  margin: 0;
+  padding: 13.5px 0; /* the text is 21px + 14 padding-top + 14 padding-bottom = 49px = height of footer */
+  width: 25%; /* needs hack with font-size 0 on ul in order to work, otherwise spaces are inserted which will mess-up layout */
+  text-align: center;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  border-right: 1px solid white;
+  font-size: 1.3rem; /* resets the font-size again as we had to set it 0 on ul */
+}
+
+footer ul li:last-child {
+  border-right: none;
+}
+
+/* active state which can be assigned via scripting */
+footer ul li.botnav-active {
+  color: #ddd;
+  background-color: #3B454E;
+}
+
+
+/* Helpers
+ **********************************************/
+
+/**
+  * Statusbar
+  */
+  #statusbar {
+    width: 100%;
+    height: 20px;
+    background-color: rgba(85,98,112,0.66);
+  }
+
+/**
+ * Clearfix for modern browsers
+ * 1. The space content is one way to avoid an Opera bug when the
+ *    contenteditable attribute is included anywhere else in the document.
+ *    Otherwise it causes space to appear at the top and bottom of elements
+ *    that are clearfixed.
+ * 2. The use of `table` rather than `block` is only necessary if using
+ *    `:before` to contain the top-margins of child elements.
+ */
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.cf:after {
+    clear: both;
+}
+
+/**
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+.cf {
+    *zoom: 1;
+}
