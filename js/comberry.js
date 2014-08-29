@@ -61,6 +61,9 @@ var comberry = {
 	// holds the totals of all added brands together
 	altogether : {},
 
+	// holds the brand with the highest profit
+	maxProfBrand : [],
+
 	colorScheme : {
 		fillColor: ["rgba(220,220,220,0.5)", "rgba(178,182,121,0.5)", "rgba(78,205,196,0.5)"],
 		strokeColor: ["rgba(220,220,220,0.8)", "rgba(178,182,121,0.8)", "rgba(78,205,196,0.8)"],
@@ -178,6 +181,21 @@ var comberry = {
 		return finder;
 	},
 
+	/**
+		* get index of brand array for brand with highest profit
+		* @return {int} index in brand array
+	*/
+	getMaxProfit : function() {
+		var highest = 0;
+		var finder = 0;
+		for(var i = 0; i < this.brand.length; i++) {
+			if(this.brand[i].profit() > highest) {
+				highest = this.brand[i].profit();
+				finder = i;
+			}
+		}
+		return finder;
+	},
 
 	/**
 	  * updates a single brand from user input
@@ -222,6 +240,8 @@ var comberry = {
 		}
 
 		this.altogether = allT;
+
+		this.maxProfBrand = this.brand[this.getMaxProfit()];
 	},
 
 	/**
@@ -246,6 +266,27 @@ var comberry = {
 
 		var axisLabels = [];
 		var dataPoints = [];
+
+		/*
+		
+		var view = ;
+
+		switch(array[3]) // add view to the state array
+		{
+			case "Maximize Profit":
+			view = this.maxProfBrand;
+			break;
+
+			default :
+			view = this.brand;
+		}
+
+		*/
+
+		// create a maxProfBrand array
+		// abstract the this.brand below into a first switch that basically loads either brand array or maxProfBrand array into generic
+		// view array,
+		// which then will serve in the volume cost etc. cases
 
 		// get the x-axis label
 		for (i = 0; i < this.brand.length; i++) {
@@ -326,9 +367,10 @@ var comberry = {
 var currentPage = "Volume";
 var activeColor = 2;
 var toggleCombined = false;
+var currentView = "Comparison";
 
 // load defaults in state array
-var state = [currentPage, activeColor, toggleCombined];
+var state = [currentPage, activeColor, toggleCombined, currentView];
 
 // hide all bubbles by default except for the create item bubble with name field in autofocus
 $(".bubble").hide();
@@ -438,65 +480,36 @@ $("#input").on("click", function() {
 
 // Intitials
 var $helpPage = $("#help");
-var $aboutPage = $("#about");
+var $topmenu = $("#topmenu")
 var topnavState = false;
 $helpPage.hide();
-$aboutPage.hide();
+$topmenu.hide();
 
-$("header").on("click", function() {
+// show help page when question mark is clicked
+$(".icon-question").click(function() {
+	$(".topnav-left").toggleClass('topnav-active');
+	$helpPage.toggle();
+});
+
+// show menu when menu is clicked
+$(".icon-menu").click(function() {
+	$(".topnav-right").toggleClass('topnav-active');
+	$topmenu.toggle();
+});
+
+// load view selection into state array
+$("#topmenu ul").on("click", function() {
+	$("#topmenu ul li").removeClass('botnav-active');
 	var clickedNode = event.target;
-
-	// if the top left button (?) is clicked
-	if($(clickedNode).hasClass('topnav-left')) {
-
-		// if state is true = page is currently visible
-		if(topnavState) {
-
-			// hide the page, remove the active class (light green color) and set state to false = hidden
-			$helpPage.hide();
-			$(".topnav-left").removeClass('topnav-active');
-			topnavState = false;
-
-		// else state is false = page is currently hidden	
-		} else {
-
-			// hide the page on the other side in any case
-			$aboutPage.hide();
-			$(".topnav-right").removeClass('topnav-active');
-
-			// add the active class to top button, show page and set state to true = page visible
-			$helpPage.show();
-			$(".topnav-left").addClass('topnav-active');
-			topnavState = true;
-		}
-	}
-
-	// same logic as above but for right hand side button
-	else if($(clickedNode).hasClass('topnav-right')) {
-		if(topnavState) {
-			$aboutPage.hide();
-			$(".topnav-right").removeClass('topnav-active');
-			topnavState = false;
-		} else {
-			$helpPage.hide();
-			$(".topnav-left").removeClass('topnav-active');
-
-			$aboutPage.show();
-			$(".topnav-right").addClass('topnav-active');
-			topnavState = true;
-		}
-	}
+	$(clickedNode).addClass('botnav-active');
+	state[3] = event.target.title;
+	$topmenu.toggle();
+	$(".topnav-right").toggleClass('topnav-active');
 });
 
 // Close the pages when touching them
 $("#help").click(function() {
 	$helpPage.hide();
 	$(".topnav-left").removeClass('topnav-active');
-	topnavState = false;
-});
-
-$("#about").click(function() {
-	$aboutPage.hide();
-	$(".topnav-right").removeClass('topnav-active');
 	topnavState = false;
 });
