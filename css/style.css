@@ -110,8 +110,10 @@ header span.topnav-active {
   text-align: center;
 }
 
-#result h2 {
-  margin: 0 0 1%;
+#main h2 {
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: #3B454E;
 }
 
 #input {

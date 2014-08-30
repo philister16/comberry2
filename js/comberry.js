@@ -263,11 +263,14 @@ var comberry = {
 
 		this.altogether = allT;
 
-		$.extend(this.maxProfBrand, this.brand[this.getMaxProfit()]);
-		this.maxProfBrand.volume = this.altogether.volume;
+		// only needs to run when there are brands submitted by the user, otherwise some properties are missing and will throw an error
+		if(this.brand.length > 0) {
+			$.extend(this.maxProfBrand, this.brand[this.getMaxProfit()]);
+			this.maxProfBrand.volume = this.altogether.volume;
 
-		$.extend(this.minCostBrand, this.brand[this.getMinCost()]);
-		this.minCostBrand.volume = this.altogether.volume;
+			$.extend(this.minCostBrand, this.brand[this.getMinCost()]);
+			this.minCostBrand.volume = this.altogether.volume;
+		}		
 
 	},
 
@@ -390,6 +393,37 @@ var comberry = {
 	    ]
 	};
 	var myBarChart = new Chart(ctx).Bar(data);
+	},
+
+
+/**
+	  * builds up the string to go as title above charts
+	  * takes an array as parameter defining [charttype, color, if combined bar is shown, selectedview]
+	  * @param {array} state = ["volume" | "cost" | "revenue" | "profit", integer, true | false, "Comparison" | "Maximize" | "Minimize" | "Optimize"]
+	  *	@return {void}
+	*/
+	getChartString : function(state) {
+		var chartString = "";
+		switch(state[3]) {
+			case "Maximize":
+			var potMoreProfit = this.maxProfBrand.totalProfit() - this.altogether.profit;
+			chartString = "Maximize Profit - you would increase your profit by " + potMoreProfit + " with " + this.maxProfBrand.name;
+			break;
+
+			case "Minimize":
+			var potLessCost = this.minCostBrand.totalCost() - this.altogether.cost;
+			chartString = "Minimize Cost - you would decrease your cost by " + potLessCost + " with " + this.minCostBrand.name;
+			break;
+
+			case "Optimize":
+			var potLessVolume = this.getOptVolume() - this.altogether.volume;
+			chartString = "Optimize Volume - you could decrease your volume by " + potLessVolume + " with " + this.maxProfBrand.name;
+			break;
+
+			default:
+			chartString = "Comparison - compare your different options";
+		}
+		return chartString;
 	} 
 }
 
@@ -412,10 +446,7 @@ var state = [currentPage, activeColor, toggleCombined, currentView];
 // hide all bubbles by default except for the create item bubble with name field in autofocus
 $(".bubble").hide();
 $("#newberry").siblings().show().find("input[type='text']").focus();
-
-// Render the default chart and set the title as per definition in default variables currentPage, activeColor and toggleCombined
-comberry.renderSingleChart(state);
-$("#chartTitle").text(state[0]);
+$("#chartTitle").text(comberry.getChartString(state));
 
 /**
 	* Main navigation (footer tabs)
@@ -423,7 +454,7 @@ $("#chartTitle").text(state[0]);
 $(".botnav-main").click(function() {
 	state[0] = $(this).attr('title');
 	comberry.renderSingleChart(state);
-	$("#chartTitle").text(state[0]);
+	// $("#chartTitle").text(state[0]);
 	$(this).addClass('botnav-active');
 	$(this).siblings('li').removeClass('botnav-active');
 });
@@ -528,7 +559,7 @@ $(".icon-question").click(function() {
 	$helpPage.toggle();
 });
 
-// show menu when menu is clicked
+// show menu when menu icon is clicked
 $(".icon-menu").click(function() {
 	$(".topnav-right").toggleClass('topnav-active');
 	$topmenu.toggle();
@@ -540,8 +571,21 @@ $("#topmenu ul").on("click", function() {
 	var clickedNode = event.target;
 	$(clickedNode).addClass('botnav-active');
 	state[3] = event.target.title;
+
+	// plot the chart title
+	$("#chartTitle").text(comberry.getChartString(state));
+
+	// close the topmenue
 	$topmenu.toggle();
 	$(".topnav-right").toggleClass('topnav-active');
+
+	// Show the combined bar switch button only with the comparison charts
+	if(clickedNode.title === "Comparison") {
+		$("#toggleCombinedSwitch").show().text("Hide Combined Bar");
+	} else {
+		$("#toggleCombinedSwitch").hide();
+	}
+	comberry.renderSingleChart(state);
 });
 
 // Close the pages when touching them
