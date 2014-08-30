@@ -233,6 +233,7 @@ var comberry = {
 		}
 
 		var allT = {
+			name : "Current",
 			volume : vol,
 			cost : cos,
 			revenue : rev,
@@ -241,7 +242,8 @@ var comberry = {
 
 		this.altogether = allT;
 
-		this.maxProfBrand = this.brand[this.getMaxProfit()];
+		$.extend(this.maxProfBrand, this.brand[this.getMaxProfit()]);
+		this.maxProfBrand.volume = this.altogether.volume;
 	},
 
 	/**
@@ -256,7 +258,7 @@ var comberry = {
 	/**
 	  * render a chart with single dataset
 	  * takes an array as parameter defining [charttype, color, if combined bar is shown]
-	  * @param {array} state = ["volume" | "cost" | "revenue" | "profit", integer, true | false]
+	  * @param {array} state = ["volume" | "cost" | "revenue" | "profit", integer, true | false, "Comparison" | "Maximize" | "Minimize" | "Optimize"]
 	  *	@return {void}
 	*/
 	renderSingleChart : function(array) {
@@ -264,43 +266,47 @@ var comberry = {
 		// Set CSS selector of canvas element (incl. the "#")
 		var canvas = "#resultChart";
 
+		// array that hold data which is going to be plotted
 		var axisLabels = [];
 		var dataPoints = [];
+		var viewData = [];
 
-		/*
-		
-		var view = ;
-
-		switch(array[3]) // add view to the state array
-		{
-			case "Maximize Profit":
-			view = this.maxProfBrand;
+		// Switches between the different views, selected view is stored in state array at index 3
+		switch(array[3]) {
+			case "Maximize":
+			// getMaxProfit returns index of brand with highest profit, thus is loaded into viewData
+			viewData.push(this.maxProfBrand);
+			viewData.push(this.altogether);
 			break;
 
-			default :
-			view = this.brand;
+			case "Minimize":
+			// getMinCost
+			break;
+
+			case "Optimize":
+			// getOptVolume
+			break;
+
+			// the comparison view is default and also the initially displayed view, all brands are loaded as viewData
+			default:
+			viewData = this.brand;
 		}
 
-		*/
 
-		// create a maxProfBrand array
-		// abstract the this.brand below into a first switch that basically loads either brand array or maxProfBrand array into generic
-		// view array,
-		// which then will serve in the volume cost etc. cases
 
 		// get the x-axis label
-		for (i = 0; i < this.brand.length; i++) {
-			axisLabels.push(this.brand[i].name);
+		for (i = 0; i < viewData.length; i++) {
+			axisLabels.push(viewData[i].name);
 		}
 		if(array[2]) {
 			axisLabels.push("Combined");
 		}
 
-		// switch to show either volume, cost, revenue or profit
+		// switch to show either volume, cost, revenue or profit, selected page is stored in state array at position 0
 		switch (array[0]) {
 			case "Volume":
-			for (i = 0; i < this.brand.length; i++) {
-				dataPoints.push(this.brand[i].volume);
+			for (i = 0; i < viewData.length; i++) {
+				dataPoints.push(viewData[i].volume);
 			}
 			if(array[2]) {
 				dataPoints.push(this.altogether.volume);
@@ -308,8 +314,8 @@ var comberry = {
 			break;
 
 			case "Cost":
-			for (i = 0; i < this.brand.length; i++) {
-				dataPoints.push(this.brand[i].totalCost());
+			for (i = 0; i < viewData.length; i++) {
+				dataPoints.push(viewData[i].totalCost());
 			}
 			if(array[2]) {
 				dataPoints.push(this.altogether.cost);
@@ -317,8 +323,8 @@ var comberry = {
 			break;
 
 			case "Revenue":
-			for (i = 0; i < this.brand.length; i++) {
-				dataPoints.push(this.brand[i].totalRevenue());
+			for (i = 0; i < viewData.length; i++) {
+				dataPoints.push(viewData[i].totalRevenue());
 			}
 			if(array[2]) {
 				dataPoints.push(this.altogether.revenue);
@@ -326,8 +332,8 @@ var comberry = {
 			break;
 
 			case "Profit":
-			for (i = 0; i < this.brand.length; i++) {
-				dataPoints.push(this.brand[i].totalProfit());
+			for (i = 0; i < viewData.length; i++) {
+				dataPoints.push(viewData[i].totalProfit());
 			}
 			if(array[2]) {
 				dataPoints.push(this.altogether.profit);
@@ -353,7 +359,7 @@ var comberry = {
 	    ]
 	};
 	var myBarChart = new Chart(ctx).Bar(data);
-	}
+	} 
 }
 
 /* User interaction (main app controller)
