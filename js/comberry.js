@@ -62,7 +62,10 @@ var comberry = {
 	altogether : {},
 
 	// holds the brand with the highest profit
-	maxProfBrand : [],
+	maxProfBrand : {},
+
+	// holds the brand with the lowest cost
+	minCostBrand : {},
 
 	colorScheme : {
 		fillColor: ["rgba(220,220,220,0.5)", "rgba(178,182,121,0.5)", "rgba(78,205,196,0.5)"],
@@ -197,6 +200,24 @@ var comberry = {
 		return finder;
 	},
 
+	getMinCost : function() {
+		var lowest = this.brand[0].cost;
+		var finder = 0;
+		for(var i = 1; i < this.brand.length; i++) {
+			if(this.brand[i].cost < lowest) {
+				lowest = this.brand[i].cost;
+				finder = i;
+			}
+		}
+		return finder;
+	},
+
+	getOptVolume : function() {
+		// divide current total profit through profit of most profitable brand
+		var optVolume = this.altogether.profit / this.maxProfBrand.profit();
+		return optVolume;
+	},
+
 	/**
 	  * updates a single brand from user input
 	  * @param {string} name of containerBerry in order to locate brand in brand array
@@ -244,6 +265,10 @@ var comberry = {
 
 		$.extend(this.maxProfBrand, this.brand[this.getMaxProfit()]);
 		this.maxProfBrand.volume = this.altogether.volume;
+
+		$.extend(this.minCostBrand, this.brand[this.getMinCost()]);
+		this.minCostBrand.volume = this.altogether.volume;
+
 	},
 
 	/**
@@ -276,15 +301,21 @@ var comberry = {
 			case "Maximize":
 			// getMaxProfit returns index of brand with highest profit, thus is loaded into viewData
 			viewData.push(this.maxProfBrand);
-			viewData.push(this.altogether);
+			array[2] = true; // shows the combined bar to compare to
 			break;
 
 			case "Minimize":
 			// getMinCost
+			viewData.push(this.minCostBrand);
+			array[2] = true;
 			break;
 
 			case "Optimize":
-			// getOptVolume
+			var optVolBrand = {};
+			$.extend(optVolBrand, this.maxProfBrand);
+			optVolBrand.volume = this.getOptVolume();
+			viewData.push(optVolBrand);
+			array[2] = true;
 			break;
 
 			// the comparison view is default and also the initially displayed view, all brands are loaded as viewData
