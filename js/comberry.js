@@ -270,8 +270,7 @@ var comberry = {
 
 			$.extend(this.minCostBrand, this.brand[this.getMinCost()]);
 			this.minCostBrand.volume = this.altogether.volume;
-		}		
-
+		}
 	},
 
 	/**
@@ -404,25 +403,25 @@ var comberry = {
 	*/
 	getChartString : function(state) {
 		var chartString = "";
-		switch(state[3]) {
-			case "Maximize":
-			var potMoreProfit = this.maxProfBrand.totalProfit() - this.altogether.profit;
-			chartString = "Maximize Profit - you would increase your profit by " + potMoreProfit + " with " + this.maxProfBrand.name;
-			break;
+			switch(state[3]) {
+				case "Maximize":
+				var potMoreProfit = this.maxProfBrand.totalProfit() - this.altogether.profit;
+				chartString = "Maximize Profit - you would increase your profit by " + potMoreProfit + " with " + this.maxProfBrand.name;
+				break;
 
-			case "Minimize":
-			var potLessCost = this.minCostBrand.totalCost() - this.altogether.cost;
-			chartString = "Minimize Cost - you would decrease your cost by " + potLessCost + " with " + this.minCostBrand.name;
-			break;
+				case "Minimize":
+				var potLessCost = this.minCostBrand.totalCost() - this.altogether.cost;
+				chartString = "Minimize Cost - you would decrease your cost by " + potLessCost + " with " + this.minCostBrand.name;
+				break;
 
-			case "Optimize":
-			var potLessVolume = this.getOptVolume() - this.altogether.volume;
-			chartString = "Optimize Volume - you could decrease your volume by " + potLessVolume + " with " + this.maxProfBrand.name;
-			break;
+				case "Optimize":
+				var potLessVolume = this.getOptVolume() - this.altogether.volume;
+				chartString = "Optimize Volume - you could decrease your volume by " + potLessVolume + " with " + this.maxProfBrand.name;
+				break;
 
-			default:
-			chartString = "Comparison - compare your different options";
-		}
+				default:
+				chartString = "Comparison - compare your different options";
+			}
 		return chartString;
 	} 
 }
