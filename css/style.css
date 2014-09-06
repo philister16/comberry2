@@ -74,7 +74,7 @@ header span.topnav-active {
 #topmenu {
   position: absolute;
   top: 64px;
-  right: 0;
+  right: 10px;
   width: 200px;
   background-color: #556270;
 }
@@ -199,6 +199,11 @@ header span.topnav-active {
   z-index: 1;
 }
 
+.bubble-short {
+  top: -135px;
+  height: 100px;
+}
+
 /**
   * Forms inside bubbles
   */
@@ -254,7 +259,7 @@ input[type="submit"]:first-of-type + input[type="submit"] {
 }
 
 /* special type=submit which will be bind to different action than others (will create instead of update/delete) */
-input#createInputBlock {
+input[type="submit"].btn-long {
   /*display: inline-block;*/
   margin: 0;
   padding: 0;

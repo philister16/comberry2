@@ -67,6 +67,8 @@ var comberry = {
 	// holds the brand with the lowest cost
 	minCostBrand : {},
 
+	sideBySideVolume : 1,
+
 	colorScheme : {
 		fillColor: ["rgba(220,220,220,0.5)", "rgba(178,182,121,0.5)", "rgba(78,205,196,0.5)"],
 		strokeColor: ["rgba(220,220,220,0.8)", "rgba(178,182,121,0.8)", "rgba(78,205,196,0.8)"],
@@ -167,6 +169,10 @@ var comberry = {
 		this.updateAll();
 		this.renderSingleChart(state);
 
+	},
+
+	updateSideBySideVolume : function() {
+		this.sideBySideVolume = parseFloat($("#change-volume-block").find("input").val());
 	},
 
 	/**
@@ -320,6 +326,15 @@ var comberry = {
 			array[2] = true;
 			break;
 
+			case "SideBySide":
+			array[2] = false;
+			for(var i = 0; i < this.brand.length; i++) {
+				viewData[i] = {};
+				$.extend(viewData[i], this.brand[i]);
+				viewData[i].volume = this.sideBySideVolume;
+			}
+			break;
+
 			// the comparison view is default and also the initially displayed view, all brands are loaded as viewData
 			default:
 			viewData = this.brand;
@@ -419,6 +434,10 @@ var comberry = {
 				chartString = "Optimize Volume - you could decrease your volume by " + potLessVolume + " with " + this.maxProfBrand.name;
 				break;
 
+				case "SideBySide":
+				chartString = "Side by Side - all options at same volume";
+				break;
+
 				default:
 				chartString = "Comparison - compare your different options";
 			}
@@ -444,6 +463,7 @@ var state = [currentPage, activeColor, toggleCombined, currentView];
 
 // hide all bubbles by default except for the create item bubble with name field in autofocus
 $(".bubble").hide();
+$("#toggleVolumeSwitch").hide();
 $("#newberry").siblings().show().find("input[type='text']").focus();
 $("#chartTitle").text(comberry.getChartString(state));
 
@@ -503,6 +523,16 @@ $("#toggleCombinedSwitch").click(function() {
 
 
 /**
+	* Change the volume to compare on in the side by side view
+	*/
+$("#changeVolumeBlock").click(function() {
+	comberry.updateSideBySideVolume();
+	comberry.renderSingleChart(state);
+	$(".bubble-short").hide();
+});
+
+
+/**
 	* Create a new input-block form interaction
 	*/
 $("#createInputBlock").click(function() {
@@ -535,7 +565,7 @@ $("#input").on("click", function() {
 
 		// autofocus on field name first in the add new button's bubble
 		if($(clickedNode).hasClass('btn-special')) {
-			$(clickedNode).siblings().find("input[type='text']").focus();
+			$(clickedNode).siblings().find(".focussed").focus();
 		}
 	}
 });
@@ -578,12 +608,25 @@ $("#topmenu ul").on("click", function() {
 	$topmenu.toggle();
 	$(".topnav-right").toggleClass('topnav-active');
 
-	// Show the combined bar switch button only with the comparison charts
+	// Show the combined bar switch button only with the comparison chart
 	if(clickedNode.title === "Comparison") {
-		$("#toggleCombinedSwitch").show().text("Hide Combined Bar");
+		if(state[2]) {
+			$("#toggleCombinedSwitch").show().text("Hide Combined Bar");
+		} else {
+			$("#toggleCombinedSwitch").show().text("Show Combined Bar");
+		}
 	} else {
 		$("#toggleCombinedSwitch").hide();
 	}
+
+	// Show the volume switch button only with the sidebyside chart
+	if(clickedNode.title === "SideBySide") {
+		$("#toggleVolumeSwitch").show();
+	} else {
+		$("#toggleVolumeSwitch").hide();
+	}
+
+	// render the chart
 	comberry.renderSingleChart(state);
 });
 

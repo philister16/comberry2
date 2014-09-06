@@ -18,6 +18,7 @@
     <div id="topmenu">
       <ul>
         <li class="botnav-active" title="Comparison">Comparison</li>
+        <li title="SideBySide">Side by Side</li>
         <li title="Maximize">Maximize Profit</li>
         <li title="Minimize">Minimize Cost</li>
         <li title="Optimize">Optimize Volume</li>
@@ -38,7 +39,7 @@
         <div class="bubble">
           <div id="create-block" class="form">
             <label>
-              <input type="text" placeholder="Name"><!--
+              <input class="focussed" type="text" placeholder="Name"><!--
             --></label>
             <label>
               <span>Volume in units: </span><input type="number">
@@ -49,13 +50,24 @@
             <label>
               <span>Revenue per unit: </span><input type="number">
             </label>
-            <input type="submit" id="createInputBlock" value="Create!">
+            <input type="submit" class="btn-long" id="createInputBlock" value="Create!">
           </div>
         </div>
         <button id="newberry" class="btn-special">Add new &hellip;</button>
       </div>
       <div class="button-section">
         <button id="toggleCombinedSwitch" class="btn-special">Show Combined Bar</button>
+      </div>
+      <div class="button-section">
+        <div class="bubble bubble-short">
+          <div id="change-volume-block" class="form">
+            <label>
+              <span>Volume in units: </span><input class="focussed" type="number">
+            </label>
+            <input type="submit" class="btn-long" id="changeVolumeBlock" value="Change!">
+          </div>
+        </div>
+        <button id="toggleVolumeSwitch" class="btn-special">Change volume</button>
       </div>
     </div>
     <div id="help">
