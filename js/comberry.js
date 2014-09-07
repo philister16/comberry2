@@ -421,25 +421,31 @@ var comberry = {
 			switch(state[3]) {
 				case "Maximize":
 				var potMoreProfit = this.maxProfBrand.totalProfit() - this.altogether.profit;
-				chartString = "Maximize Profit - you would increase your profit by " + potMoreProfit + " with " + this.maxProfBrand.name;
+				potMoreProfit = potMoreProfit.toFixed(2);
+				potMoreProfit = numFor.addCommas(potMoreProfit);
+				chartString = "<strong>Maximize Profit</strong> - you would increase your profit by <strong>" + potMoreProfit + "</strong> with " + this.maxProfBrand.name;
 				break;
 
 				case "Minimize":
 				var potLessCost = this.minCostBrand.totalCost() - this.altogether.cost;
-				chartString = "Minimize Cost - you would decrease your cost by " + potLessCost + " with " + this.minCostBrand.name;
+				potLessCost = potLessCost.toFixed(2);
+				potLessCost = numFor.addCommas(potLessCost);
+				chartString = "<strong>Minimize Cost</strong> - you would decrease your cost by <strong>" + potLessCost + "</strong> with " + this.minCostBrand.name;
 				break;
 
 				case "Optimize":
 				var potLessVolume = this.getOptVolume() - this.altogether.volume;
-				chartString = "Optimize Volume - you could decrease your volume by " + potLessVolume + " with " + this.maxProfBrand.name;
+				potLessVolume = Math.floor(potLessVolume);
+				potLessVolume = numFor.addCommas(potLessVolume);
+				chartString = "<strong>Optimize Volume</strong> - you could decrease your volume by <strong>" + potLessVolume + "</strong> with " + this.maxProfBrand.name;
 				break;
 
 				case "SideBySide":
-				chartString = "Side by Side - all options at same volume";
+				chartString = "<strong>Side by Side</strong> - all options at same volume";
 				break;
 
 				default:
-				chartString = "Comparison - compare your different options";
+				chartString = "<strong>Comparison</strong> - compare your different options";
 			}
 		return chartString;
 	} 
@@ -465,7 +471,7 @@ var state = [currentPage, activeColor, toggleCombined, currentView];
 $(".bubble").hide();
 $("#toggleVolumeSwitch").hide();
 $("#newberry").siblings().show().find("input[type='text']").focus();
-$("#chartTitle").text(comberry.getChartString(state));
+$("#chartTitle").html(comberry.getChartString(state));
 
 /**
 	* Main navigation (footer tabs)
@@ -602,7 +608,7 @@ $("#topmenu ul").on("click", function() {
 	state[3] = event.target.title;
 
 	// plot the chart title
-	$("#chartTitle").text(comberry.getChartString(state));
+	$("#chartTitle").html(comberry.getChartString(state));
 
 	// close the topmenue
 	$topmenu.toggle();
