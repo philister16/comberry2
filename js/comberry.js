@@ -506,6 +506,24 @@ function updateBrandAction(berry) {
 
 // delete a brand/item
 function deleteBrandAction(berry) {
+	// check if still 2 brands are loaded, if not switch view to default comparison and show reduced menu options
+	// Hacky: becaue we hardcoded renderSinglechart in method we need to assume that if deleteBrandAction is called
+	// user has made decision, should there be less than 3 brands already we will end up with less than two after function call
+	// that way we can update state array before renderSingleChart is called through the removeInputBlock method
+	if(comberry.brand.length < 3) {
+		state[3] = "Comparison";
+		$("#topmenu ul li").removeClass('botnav-active');
+		$("#topmenu ul li").first().addClass('botnav-active'); // comparison is the first menu item
+		// brings in the combined bar switch again
+		if(state[2]) {
+			$("#toggleCombinedSwitch").show().text("Hide Combined Bar");
+		} else {
+			$("#toggleCombinedSwitch").show().text("Show Combined Bar");
+		}
+		$("#chartTitle").html(comberry.getChartString(state));
+		$("#full-topmenu").hide();
+		$("#reduced-topmenu").show();
+	}
 	comberry.removeInputBlock(berry);
 	if(comberry.containerBerries.length > 0) {
 		$("#newberry").show();
@@ -597,15 +615,26 @@ $(".icon-question").click(function() {
 // show menu when menu icon is clicked
 $(".icon-menu").click(function() {
 	$(".topnav-right").toggleClass('topnav-active');
+	if(comberry.brand.length < 2) {
+		$("#reduced-topmenu").show();
+		$("#full-topmenu").hide();
+	} else {
+		$("#full-topmenu").show();
+		$("#reduced-topmenu").hide();
+	}
 	$topmenu.toggle();
 });
 
 // load view selection into state array
 $("#topmenu ul").on("click", function() {
-	$("#topmenu ul li").removeClass('botnav-active');
 	var clickedNode = event.target;
-	$(clickedNode).addClass('botnav-active');
-	state[3] = event.target.title;
+
+	// if we show the reduced menu makes sure a click on the reduced message doesn't change the state array
+	if(event.target.title !== "reduced-topmenu-message") {
+		$("#topmenu ul li").removeClass('botnav-active');
+		$(clickedNode).addClass('botnav-active');
+		state[3] = event.target.title;
+	}
 
 	// plot the chart title
 	$("#chartTitle").html(comberry.getChartString(state));
@@ -615,7 +644,7 @@ $("#topmenu ul").on("click", function() {
 	$(".topnav-right").toggleClass('topnav-active');
 
 	// Show the combined bar switch button only with the comparison chart
-	if(clickedNode.title === "Comparison") {
+	if(state[3] === "Comparison") {
 		if(state[2]) {
 			$("#toggleCombinedSwitch").show().text("Hide Combined Bar");
 		} else {
@@ -626,7 +655,7 @@ $("#topmenu ul").on("click", function() {
 	}
 
 	// Show the volume switch button only with the sidebyside chart
-	if(clickedNode.title === "SideBySide") {
+	if(state[3] === "SideBySide") {
 		$("#toggleVolumeSwitch").show();
 	} else {
 		$("#toggleVolumeSwitch").hide();

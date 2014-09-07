@@ -92,6 +92,11 @@ header span.topnav-active {
   border-top: 1px solid white;
 }
 
+#reduced-topmenu li {
+  font-style: italic;
+  color: #ddd;
+}
+
 
 /* Main Content
  **********************************************/
