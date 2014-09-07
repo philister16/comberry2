@@ -154,7 +154,7 @@ var comberry = {
 		});
 		
 		// builds up the html string which will be appended to the DOM
-		var newBlock = '<div class="button-section '+createData[0]+'"><div class="bubble"><div id="'+createData[0]+'" class="form"><label><input type="text" placeholder="Name" value="'+createData[1]+'"><!----></label><label><span>Volume in units: </span><input type="number" value="'+createData[2]+'"></label><label><span>Cost per unit: </span><input type="number" value="'+createData[3]+'"></label><label><span>Revenue per unit: </span><input type="number" value="'+createData[4]+'"></label><input type="submit" class="btn-delete" name="'+createData[0]+'" onclick="deleteBrandAction(this.name)" value=""><input type="submit" class="btn-update" name="'+createData[0]+'" onclick="updateBrandAction(this.name)" value=""></div></div><button class="'+createData[0]+'">'+createData[1]+'<span class="icon-cancel-circle" title="'+createData[0]+'" onclick="deleteBrandAction(this.title)"></span></button></div>'
+		var newBlock = '<div class="button-section '+createData[0]+'"><div class="bubble"><div id="'+createData[0]+'" class="form"><label><input type="text" placeholder="Name" value="'+createData[1]+'"><!----></label><label><span>Volume in units: </span><input type="text" value="'+createData[2]+'"></label><label><span>Cost per unit: </span><input type="text" value="'+createData[3]+'"></label><label><span>Revenue per unit: </span><input type="text" value="'+createData[4]+'"></label><input type="submit" class="btn-delete" name="'+createData[0]+'" onclick="deleteBrandAction(this.name)" value=""><input type="submit" class="btn-update" name="'+createData[0]+'" onclick="updateBrandAction(this.name)" value=""></div></div><button class="'+createData[0]+'">'+createData[1]+'<span class="icon-cancel-circle" title="'+createData[0]+'" onclick="deleteBrandAction(this.title)"></span></button></div>'
 		$("#input").append(newBlock);
 
 		// parses the numbers to actual numbers for correct maths in the updateAll() function
@@ -470,7 +470,7 @@ var state = [currentPage, activeColor, toggleCombined, currentView];
 // hide all bubbles by default except for the create item bubble with name field in autofocus
 $(".bubble").hide();
 $("#toggleVolumeSwitch").hide();
-$("#newberry").siblings().show().find("input[type='text']").focus();
+$("#newberry").siblings().show().find(".focussed").focus();
 $("#chartTitle").html(comberry.getChartString(state));
 
 /**
@@ -566,7 +566,7 @@ $("#createInputBlock").click(function() {
 		$("#newberry").hide();
 	}
 	// remove all inputted values so when user returns to add another item finds empty field
-	$("#create-block").find("input[type='text'], input[type='number']").val("");
+	$("#create-block").find("input[type='text']").val("");
 });
 
 
