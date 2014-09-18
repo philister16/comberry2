@@ -421,22 +421,20 @@ var comberry = {
 			switch(state[3]) {
 				case "Maximize":
 				var potMoreProfit = this.maxProfBrand.totalProfit() - this.altogether.profit;
-				potMoreProfit = potMoreProfit.toFixed(2);
-				potMoreProfit = numFor.addCommas(potMoreProfit);
+				//potMoreProfit = $.number(potMoreProfit, 2);
 				chartString = "<strong>Maximize Profit</strong> - you would increase your profit by <strong>" + potMoreProfit + "</strong> with " + this.maxProfBrand.name;
 				break;
 
 				case "Minimize":
 				var potLessCost = this.minCostBrand.totalCost() - this.altogether.cost;
-				potLessCost = potLessCost.toFixed(2);
-				potLessCost = numFor.addCommas(potLessCost);
+				//potLessCost = $.number(potLessCost, 2);
 				chartString = "<strong>Minimize Cost</strong> - you would decrease your cost by <strong>" + potLessCost + "</strong> with " + this.minCostBrand.name;
 				break;
 
 				case "Optimize":
 				var potLessVolume = this.getOptVolume() - this.altogether.volume;
 				potLessVolume = Math.floor(potLessVolume);
-				potLessVolume = numFor.addCommas(potLessVolume);
+				//potLessVolume = $.number(potLessVolume);
 				chartString = "<strong>Optimize Volume</strong> - you could decrease your volume by <strong>" + potLessVolume + "</strong> with " + this.maxProfBrand.name;
 				break;
 
