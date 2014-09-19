@@ -294,7 +294,7 @@ input[type="submit"].btn-long {
   background-color: rgba(245,245,245,0.9);
   position: absolute;
   top: 64px;
-  width: 320px;
+  width: 984px;
   max-height: 634px; /* total content height of ipad is 655, minus 2 * 10px padding (top + bottom) = 635 */
   overflow: scroll;
   -webkit-overflow-scrolling: touch;
@@ -314,6 +314,26 @@ input[type="submit"].btn-long {
   -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
 }
 
+#help h2 {
+  font-size: 2rem;
+  text-align: center;
+  padding-bottom: 30px;
+}
+
+#help h3 {
+  font-size: 1.5rem;
+  font-weight: 300;
+  text-align: center;
+  padding-top: 30px;
+}
+
+#help img {
+  width: 60%;
+  height: 60%;
+  border: 1px solid #ddd;
+  margin: 0 20%;
+}
+
 #help a,
 #about a,
 #help a:visited,
@@ -321,8 +341,9 @@ input[type="submit"].btn-long {
   color: #666;
 }
 
-#help h4, #about h4 {
+#help h4, #help p {
   margin: 2rem 0 0;
+  text-align: center;
 }
 
 #help {
